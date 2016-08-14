@@ -18,7 +18,7 @@ import java.util.List;
 @Table(name="applicant_view")
 @NamedQueries({
 	@NamedQuery(name = "ApplicantView.findAll", query = "SELECT a FROM ApplicantView a"),
-    @NamedQuery(name = "ApplicantView.findByName", query = "SELECT a FROM Applicant a WHERE a.firstName = :firstName AND a.lastName = :lastName")
+    @NamedQuery(name = "ApplicantView.findByName", query = "SELECT a FROM ApplicantView a WHERE a.firstName = :firstName AND a.lastName = :lastName")
 })
 public class ApplicantView implements Serializable {
 	private static final long serialVersionUID = 1L;
