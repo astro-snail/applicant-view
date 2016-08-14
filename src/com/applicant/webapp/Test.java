@@ -1,7 +1,6 @@
 package com.applicant.webapp;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -16,8 +15,8 @@ public class Test {
 		
 	public static void main( String[ ] args ) {
 
-		try {
-			Connection connection = WebService.getConnection();
+		/*try {
+			/*Connection connection = WebService.getConnection();
 			Map<String, String> dbProps = new HashMap<String, String>();
 		    
 			dbProps.put("javax.persistence.jdbc.url", connection.getMetaData().getURL());
@@ -63,6 +62,6 @@ public class Test {
 		} catch (SQLException e) {
 			System.out.println("Cannot establish a database connection!");
 			e.printStackTrace();
-		} // Try
+		}*/	
 	} // main
 } // Class

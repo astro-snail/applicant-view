@@ -20,32 +20,22 @@ import javax.ws.rs.core.MediaType;
 @Path("/service")
 public class WebService {
 	
-	public static final String PERSISTENCE_UNIT_NAME = "applicant-db";
-	
-	public static Connection getConnection() throws SQLException{ // public for the use in Test.java
+	private Connection getConnection() throws SQLException {
+		String dbUrl = System.getenv("JDBC_DATABASE_URL");
 		try {
 			Class.forName("org.postgresql.Driver");
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-		String dbUrl = System.getenv("JDBC_DATABASE_URL");
 		return DriverManager.getConnection(dbUrl);
 	}
-
-	private EntityManager getEntityManager(String persistenceUnitName) {
+	
+	private EntityManager getEntityManager(Connection connection) throws SQLException {
 		Map<String, String> dbProps = new HashMap<String, String>();
-		    
-		try {
-			Connection connection = getConnection();
-			dbProps.put("javax.persistence.jdbc.url", connection.getMetaData().getURL());
-			dbProps.put("javax.persistence.jdbc.driver", connection.getClass().getName());
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		        
-		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME, dbProps);
+						
+		dbProps.put("javax.persistence.jdbc.url", connection.getMetaData().getURL());
+		dbProps.put("javax.persistence.jdbc.driver", connection.getClass().getName());
+						        
+		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("applicant-db", dbProps);
 		return entityManagerFactory.createEntityManager();
 	}
 	
@@ -53,48 +43,123 @@ public class WebService {
     @Produces(MediaType.APPLICATION_XML)
 	@Path("/applicants")
 	public List<Applicant> getAll() {
-		EntityManager entityManager = getEntityManager(PERSISTENCE_UNIT_NAME);
-		Query query = entityManager.createNamedQuery("Applicant.findAll");
-		return query.getResultList();	    
-    }
+		Connection connection = null;
+		EntityManager entityManager = null;
+		List<Applicant> resultList = null;
+		try {
+			connection = getConnection();
+			entityManager = getEntityManager(connection);
+			Query query = entityManager.createNamedQuery("Applicant.findAll");
+	        resultList = query.getResultList();
+		} catch (SQLException e) {
+		} finally {
+			try { 
+				entityManager.close(); 
+			} catch (Exception e) {}
+			try {
+				connection.close(); 
+			} catch (Exception e) {}
+		}
+		return resultList;
+	}
 	    
     @GET
     @Produces(MediaType.APPLICATION_XML)
     @Path("/applicants/{id}")
     public Applicant getById(@PathParam("id") int id) {
-    	EntityManager entityManager = getEntityManager(PERSISTENCE_UNIT_NAME);
-       	return entityManager.find(Applicant.class, id);
+    	Connection connection = null;
+		EntityManager entityManager = null;
+		Applicant result = null;
+		try {
+			connection = getConnection();
+			entityManager = getEntityManager(connection);
+			result = entityManager.find(Applicant.class, id);
+		} catch (SQLException e) {
+		} finally {
+			try { 
+				entityManager.close(); 
+			} catch (Exception e) {}
+			try {
+				connection.close(); 
+			} catch (Exception e) {}
+		}
+		return result;
     }
  
     @GET
     @Produces(MediaType.APPLICATION_XML)
     @Path("/applicants/{firstName}/{lastName}")
     public List<Applicant> findByName(@PathParam("firstName") String firstName,
-    		                              @PathParam("lastName") String lastName) {
-    	EntityManager entityManager = getEntityManager(PERSISTENCE_UNIT_NAME);
-        Query query = entityManager.createNamedQuery("Applicant.findByName");
-        query.setParameter("firstName", firstName);
-        query.setParameter("lastName", lastName);
-        return query.getResultList();
+    		                          @PathParam("lastName") String lastName) {
+    	Connection connection = null;
+		EntityManager entityManager = null;
+		List<Applicant> resultList = null;
+		try {
+			connection = getConnection();
+			entityManager = getEntityManager(connection);
+			Query query = entityManager.createNamedQuery("Applicant.findByName");
+			query.setParameter("firstName", firstName);
+	        query.setParameter("lastName", lastName);
+	        resultList = query.getResultList();
+		} catch (SQLException e) {
+		} finally {
+			try { 
+				entityManager.close(); 
+			} catch (Exception e) {}
+			try {
+				connection.close(); 
+			} catch (Exception e) {}
+		}
+		return resultList;
     }
     
     @GET
     @Produces(MediaType.APPLICATION_XML)
     @Path("/applicants/{id}/experience")
     public List<WorkExperience> findWorkExperience(@PathParam("id") int id) {
-    	EntityManager entityManager = getEntityManager(PERSISTENCE_UNIT_NAME);
-        Query query = entityManager.createNamedQuery("WorkExperience.findAllForApplicant");
-        query.setParameter("applicantId", id);
-        return query.getResultList();
+    	Connection connection = null;
+		EntityManager entityManager = null;
+		List<WorkExperience> resultList = null;
+		try {
+			connection = getConnection();
+			entityManager = getEntityManager(connection);
+			Query query = entityManager.createNamedQuery("WorkExperience.findAllForApplicant");
+			query.setParameter("applicantId", id);
+	        resultList = query.getResultList();
+		} catch (SQLException e) {
+		} finally {
+			try { 
+				entityManager.close(); 
+			} catch (Exception e) {}
+			try {
+				connection.close(); 
+			} catch (Exception e) {}
+		}
+		return resultList;
     }
-    
+	    
     @GET
     @Produces(MediaType.APPLICATION_XML)
     @Path("/applicants/{id}/education")
     public List<Education> findEducation(@PathParam("id") int id) {
-    	EntityManager entityManager = getEntityManager(PERSISTENCE_UNIT_NAME);
-        Query query = entityManager.createNamedQuery("Education.findAllForApplicant");
-        query.setParameter("applicantId", id);
-        return query.getResultList();
+    	Connection connection = null;
+		EntityManager entityManager = null;
+		List<Education> resultList = null;
+		try {
+			connection = getConnection();
+			entityManager = getEntityManager(connection);
+			Query query = entityManager.createNamedQuery("Education.findAllForApplicant");
+			query.setParameter("applicantId", id);
+	        resultList = query.getResultList();
+		} catch (SQLException e) {
+		} finally {
+			try { 
+				entityManager.close(); 
+			} catch (Exception e) {}
+			try {
+				connection.close(); 
+			} catch (Exception e) {}
+		}
+		return resultList;
     }
 }

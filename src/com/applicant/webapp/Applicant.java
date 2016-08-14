@@ -136,7 +136,6 @@ public class Applicant implements Serializable {
 		return this.workExperience;
 	}
 	
-	@XmlElement
 	public void setWorkExperience(List<WorkExperience> workExperience) {
 		this.workExperience = workExperience;
 	}
@@ -145,7 +144,6 @@ public class Applicant implements Serializable {
 		return this.education;
 	}
 
-	@XmlElement
 	public void setEducation(List<Education> education) {
 		this.education = education;
 	}
