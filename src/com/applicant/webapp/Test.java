@@ -21,16 +21,16 @@ public class Test {
 			Map<String, String> dbProps = new HashMap<String, String>();
 		    
 			dbProps.put("javax.persistence.jdbc.url", connection.getMetaData().getURL());
-			dbProps.put("javax.persistence.jdbc.driver", connection.getClass().getName());       
-		
+			dbProps.put("javax.persistence.jdbc.driver", connection.getClass().getName());  
+			
 			EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(WebService.PERSISTENCE_UNIT_NAME, dbProps);
 			EntityManager entityManager = entityManagerFactory.createEntityManager();
 	    	    		
-			Query query = entityManager.createNamedQuery("ApplicantView.findAll");
+			Query query = entityManager.createNamedQuery("Applicant.findAll");
       
-			List<ApplicantView> list = query.getResultList( );
+			List<Applicant> list = query.getResultList( );
       
-			for( ApplicantView a:list ){
+			for( Applicant a:list ){
 				System.out.print("Applicant ID: " + a.getApplicantId() + "\t");
 				System.out.println("Applicant Name: " + a.getFirstName() + " " + a.getLastName());
       

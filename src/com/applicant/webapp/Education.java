@@ -31,10 +31,10 @@ public class Education implements Serializable {
 	@Column(name="educational_institution", length=50)
 	private String educationalInstitution;
 
-	//bi-directional many-to-one association to ApplicantView
+	//bi-directional many-to-one association to Applicant
 	@ManyToOne
 	@JoinColumn(name="applicant_id", referencedColumnName="applicant_id", nullable=false, insertable=false, updatable=false)
-	private ApplicantView applicantView;
+	private Applicant applicant;
 
 	public Education() {
 	}
@@ -71,13 +71,4 @@ public class Education implements Serializable {
 	public void setEducationalInstitution(String educationalInstitution) {
 		this.educationalInstitution = educationalInstitution;
 	}
-
-	/*public ApplicantView getApplicantView() {
-		return this.applicantView;
-	}
-
-	public void setApplicantView(ApplicantView applicantView) {
-		this.applicantView = applicantView;
-	}*/
-
 }

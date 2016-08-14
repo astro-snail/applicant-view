@@ -52,27 +52,27 @@ public class WebService {
 	@GET
     @Produces(MediaType.APPLICATION_XML)
 	@Path("/applicants")
-	public List<ApplicantView> getAll() {
+	public List<Applicant> getAll() {
 		EntityManager entityManager = getEntityManager(PERSISTENCE_UNIT_NAME);
-		Query query = entityManager.createNamedQuery("ApplicantView.findAll");
+		Query query = entityManager.createNamedQuery("Applicant.findAll");
 		return query.getResultList();	    
     }
 	    
     @GET
     @Produces(MediaType.APPLICATION_XML)
     @Path("/applicants/{id}")
-    public ApplicantView getById(@PathParam("id") int id) {
+    public Applicant getById(@PathParam("id") int id) {
     	EntityManager entityManager = getEntityManager(PERSISTENCE_UNIT_NAME);
-       	return entityManager.find(ApplicantView.class, id);
+       	return entityManager.find(Applicant.class, id);
     }
  
     @GET
     @Produces(MediaType.APPLICATION_XML)
     @Path("/applicants/{firstName}/{lastName}")
-    public List<ApplicantView> findByName(@PathParam("firstName") String firstName,
+    public List<Applicant> findByName(@PathParam("firstName") String firstName,
     		                              @PathParam("lastName") String lastName) {
     	EntityManager entityManager = getEntityManager(PERSISTENCE_UNIT_NAME);
-        Query query = entityManager.createNamedQuery("ApplicantView.findByName");
+        Query query = entityManager.createNamedQuery("Applicant.findByName");
         query.setParameter("firstName", firstName);
         query.setParameter("lastName", lastName);
         return query.getResultList();

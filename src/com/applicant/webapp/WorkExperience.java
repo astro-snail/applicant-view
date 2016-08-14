@@ -34,10 +34,10 @@ public class WorkExperience implements Serializable {
 	@Column(length=50)
 	private String position;
 
-	//bi-directional many-to-one association to ApplicantView
+	//bi-directional many-to-one association to Applicant
 	@ManyToOne
 	@JoinColumn(name="applicant_id", referencedColumnName="applicant_id", nullable=false, insertable=false, updatable=false)
-	private ApplicantView applicantView;
+	private Applicant applicant;
 
 	public WorkExperience() {
 	}
@@ -81,13 +81,4 @@ public class WorkExperience implements Serializable {
 	public void setPosition(String position) {
 		this.position = position;
 	}
-
-	/*public ApplicantView getApplicantView() {
-		return this.applicantView;
-	}
-
-	public void setApplicantView(ApplicantView applicantView) {
-		this.applicantView = applicantView;
-	}*/
-
 }
